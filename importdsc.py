@@ -3,7 +3,7 @@ def import_dsc(filename, time_between_scans = 10):
     output = []
     store_data = False
     
-    with open(filename) as file:
+    with open(filename, errors='ignore') as file:
         time_offset = 0
         
         while 1:
