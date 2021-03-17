@@ -1,4 +1,5 @@
 def import_dsc(filename, time_between_scans = 10):
+    import numpy as np
     
     output = []
     store_data = False
