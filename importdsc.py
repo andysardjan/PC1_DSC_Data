@@ -1,4 +1,4 @@
-def import_dsc(filename, time_between_scans = 10, baselined='True'):
+def import_dsc(filename, time_between_scans = 10, baselined='True', skiprows = 300):
     import numpy as np
     
     forward = []
@@ -11,6 +11,10 @@ def import_dsc(filename, time_between_scans = 10, baselined='True'):
         time_offset = 0
         
         while 1:
+
+            for i in range(skiprows):
+                line = file.readline()
+                
             line = file.readline()
         
             if not line:
