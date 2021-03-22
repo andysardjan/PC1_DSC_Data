@@ -54,7 +54,7 @@ def import_dsc(filename, time_between_scans = 10, baselined='True'):
                 
 
         
-        return forward, reverse
+        return np.array(forward), np.array(reverse)
     
 def baselined(xdata, ydata, f_l = -300, f_r = -100, r_l = 100, r_f = 300, order =3, offset = 32.7):
 
