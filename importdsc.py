@@ -17,6 +17,7 @@ def import_dsc(filename, time_between_scans = 10, baselined='True'):
                 break
             
             if 'Program step 2' in line:
+                store_to_forward = False
                 time_offset = time_between_scans + t
                 line = file.readline()
                 line = file.readline()
