@@ -1,8 +1,11 @@
-def import_dsc(filename, time_between_scans = 10):
+def import_dsc(filename, time_between_scans = 10, baselined='True'):
     import numpy as np
     
-    output = []
+    forward = []
+    reverse = []
+    
     store_data = False
+    store_to_forward = True
     
     with open(filename, errors='ignore') as file:
         time_offset = 0
@@ -37,7 +40,11 @@ def import_dsc(filename, time_between_scans = 10):
                 t = float(t) 
                 T = float(data_line[2])
                 X = float(data_line[3])
-                output.append([t + time_offset, T, X])
+                if store_to_forward:
+                    forward.append([t + time_offset, T, X])
+                else:
+                    reverse.append([t + time_offset, T, X])
+                    
             
             if 'Data step 1' in line:
                 store_data = True
@@ -45,4 +52,18 @@ def import_dsc(filename, time_between_scans = 10):
                 line = file.readline()
                 line = file.readline()
                 
-        return np.array(output) 
+
+        
+        return forward, reverse
+    
+def baselined(xdata, ydata, f_l = -300, f_r = -100, r_l = 100, r_f = 300, order =3, offset = 32.7):
+
+    x_baseline = np.concatenate([xdata[f_l:f_r], xdata[r_l:r_f]]) 
+    y_baseline = np.concatenate([ydata[f_l:f_r], ydata[r_l:r_f]]) 
+
+    baseline_fit = np.polyfit(x_baseline, y_baseline, order)
+    y_baselined = ydata - np.polyval(baseline_fit, xdata)
+
+    print(baseline_fit)
+
+    return xdata, y_baselined + offset
